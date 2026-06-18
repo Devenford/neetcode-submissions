@@ -18,9 +18,12 @@ class Solution {
         if (visit.count(node)) {
             return false;
         }
-        if (processed.count(node)) {
+        if (processed.count(node)) { // already safe, skip (prevents 
+        // revisiting a node through another path)
             return true; 
-        }
+        } // If node X was already fully explored (no cycle found), 
+        // any other path that reaches X can immediately return true 
+        // without re-running DFS through X's entire subtree.
 
         visit.insert(node);
         processed.insert(node);
@@ -31,14 +34,12 @@ class Solution {
             }
         }
 
-        visit.erase(node);
         return true;
     }
 
 public:
     bool canFinish(int numCourses, vector<vector<int>>& prerequisites) {
         unordered_map<int, vector<int>> adjList;
-        unordered_set<int> visit;  //stores the visited vertices on the current dfs path
         unordered_set<int> processed;  //processed nodes
 
         for (vector<int> &p : prerequisites) {  // p = pair
@@ -47,6 +48,7 @@ public:
 
         for(int i=0; i<numCourses; i++) {
             if (processed.count(i)==0) {
+                unordered_set<int> visit;  //stores the visited vertices on the current dfs path
                 if (!dfs(i, adjList, visit, processed)) {
                     return false;
                 }
