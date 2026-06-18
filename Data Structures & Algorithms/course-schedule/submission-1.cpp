@@ -18,6 +18,12 @@ class Solution {
         if (visit.count(node)) {
             return false;
         }
+        if (processed.count(node)) { // already safe, skip (prevents 
+        // revisiting a node through another path)
+            return true; 
+        } // If node X was already fully explored (no cycle found), 
+        // any other path that reaches X can immediately return true 
+        // without re-running DFS through X's entire subtree.
 
         visit.insert(node);
         processed.insert(node);
