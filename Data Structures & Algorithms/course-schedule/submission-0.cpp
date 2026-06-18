@@ -18,6 +18,9 @@ class Solution {
         if (visit.count(node)) {
             return false;
         }
+        if (processed.count(node)) {
+            return true; 
+        }
 
         visit.insert(node);
         processed.insert(node);
